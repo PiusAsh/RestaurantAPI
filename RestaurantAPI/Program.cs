@@ -34,11 +34,11 @@ builder.Services.AddAutoMapper(typeof(RestaurantDbContext));
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewsService, ReviewsService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-//builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<JwtTokenService>();
 
 var config = new ConfigurationBuilder()

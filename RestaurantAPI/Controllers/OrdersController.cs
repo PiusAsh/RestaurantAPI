@@ -6,102 +6,93 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entity;
+using RestaurantAPI.Interfaces;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/orders")]
     [ApiController]
-    public class OrdersController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        private readonly RestaurantDbContext _context;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(RestaurantDbContext context)
+        public OrderController(IOrderService orderService)
         {
-            _context = context;
+            _orderService = orderService;
         }
 
-        // GET: api/Orders
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
-        {
-            return await _context.Orders.ToListAsync();
-        }
-
-        // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return order;
-        }
-
-        // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
-        {
-            if (id != order.OrderId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(order).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Orders
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: api/orders
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
         {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
+            var response = await _orderService.CreateOrder(orderDTO);
+            return StatusCode(response.StatusCode, response);
         }
 
-        // DELETE: api/Orders/5
+        // PUT: api/orders/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderDTO orderDTO)
+        {
+            var response = await _orderService.UpdateOrder(id, orderDTO);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // DELETE: api/orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var response = await _orderService.DeleteOrder(id);
+            return StatusCode(response.StatusCode, response);
         }
 
-        private bool OrderExists(int id)
+        // GET: api/orders
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
         {
-            return _context.Orders.Any(e => e.OrderId == id);
+            var response = await _orderService.GetAllOrders();
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // GET: api/orders/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderById(int id)
+        {
+            var response = await _orderService.GetOrderById(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // GET: api/orders/customer/5
+        [HttpGet("customer/{id}")]
+        public async Task<IActionResult> GetOrderByCustomerId(int id)
+        {
+            var response = await _orderService.GetOrderByCustomerId(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // GET: api/orders/deliveryperson/5
+        [HttpGet("deliveryperson/{id}")]
+        public async Task<IActionResult> GetOrderByDeliveryPersonId(int id)
+        {
+            var response = await _orderService.GetOrderByDeliveryPersonId(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // GET: api/orders/ref/ABC123
+        [HttpGet("ref/{id}")]
+        public async Task<IActionResult> GetOrderByRef(string id)
+        {
+            var response = await _orderService.GetOrderByRef(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        // GET: api/orders/transaction/XYZ456
+        [HttpGet("transaction/{id}")]
+        public async Task<IActionResult> GetOrderByTransactionId(string id)
+        {
+            var response = await _orderService.GetOrderByTransactionId(id);
+            return StatusCode(response.StatusCode, response);
         }
     }
+
 }

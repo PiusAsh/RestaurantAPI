@@ -13,7 +13,6 @@
         public string Password { get; set; }
         public string Gender { get; set; }
         public DateTime DateOfBirth { get; set; }
-        //public UserRole Role { get; set; }
         public string Role { get; set; }
         public DateTime RegisteredDate { get; set; }
         public DateTime? LastLoggedIn { get; set; }

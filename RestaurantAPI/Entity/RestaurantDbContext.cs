@@ -16,6 +16,6 @@ namespace RestaurantAPI.Entity
         public DbSet<Order> Orders { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<RestaurantAPI.Entity.Notification> Notification { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

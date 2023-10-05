@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantAPI.Entity;
 
@@ -11,9 +12,11 @@ using RestaurantAPI.Entity;
 namespace RestaurantAPI.Migrations
 {
     [DbContext(typeof(RestaurantDbContext))]
-    partial class RestaurantDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231005095253_Re-arranged order table")]
+    partial class Rearrangedordertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +83,7 @@ namespace RestaurantAPI.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("RestaurantAPI.Entity.Order", b =>
@@ -100,10 +103,7 @@ namespace RestaurantAPI.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DeliveryPersonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LastModifiedById")
+                    b.Property<int>("LastModifiedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LastModifiedDate")
@@ -112,16 +112,13 @@ namespace RestaurantAPI.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("OrderOption")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderOption")
+                        .HasColumnType("int");
 
-                    b.Property<string>("OrderStatus")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PaymentStatus")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
+                    b.Property<int>("PaymentStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("Reference")
@@ -204,12 +201,6 @@ namespace RestaurantAPI.Migrations
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CommentedById")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CommentedByName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
 
@@ -217,6 +208,9 @@ namespace RestaurantAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

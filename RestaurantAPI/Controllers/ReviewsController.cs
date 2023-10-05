@@ -6,102 +6,73 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entity;
+using RestaurantAPI.Interfaces;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Controllers
 {
-    [Route("api/[controller]")]
+
+    [Route("api/reviews")]
     [ApiController]
     public class ReviewsController : ControllerBase
     {
-        private readonly RestaurantDbContext _context;
+        private readonly IReviewsService _reviewsService;
 
-        public ReviewsController(RestaurantDbContext context)
+        public ReviewsController(IReviewsService reviewsService)
         {
-            _context = context;
+            _reviewsService = reviewsService;
         }
 
-        // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
+        public async Task<IActionResult> GetAllReviews()
         {
-            return await _context.Reviews.ToListAsync();
+            var response = await _reviewsService.GetAllReviews();
+            return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/Reviews/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Review>> GetReview(int id)
-        {
-            var review = await _context.Reviews.FindAsync(id);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            return review;
-        }
-
-        // PUT: api/Reviews/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutReview(int id, Review review)
-        {
-            if (id != review.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(review).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ReviewExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Reviews
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Review>> PostReview(Review review)
+        public async Task<IActionResult> AddReview([FromBody] ReviewsDTO reviewDTO)
         {
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetReview", new { id = review.Id }, review);
+            var response = await _reviewsService.AddReview(reviewDTO);
+            return StatusCode(response.StatusCode, response);
         }
 
-        // DELETE: api/Reviews/5
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetReviewById(int id)
+        {
+            var response = await _reviewsService.GetReviewById(id);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        [HttpGet("food/{foodId}")]
+        public async Task<IActionResult> GetReviewsByFoodId(int foodId)
+        {
+            var response = await _reviewsService.GetReviewsByFoodId(foodId);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        [HttpGet("commentedby/{commentedById}")]
+        public async Task<IActionResult> GetReviewsByCommentedById(int commentedById)
+        {
+            var response = await _reviewsService.GetReviewsByCommentedById(commentedById);
+            return StatusCode(response.StatusCode, response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewsDTO reviewDTO)
+        {
+            var response = await _reviewsService.UpdateReview(id, reviewDTO);
+            return StatusCode(response.StatusCode, response);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReview(int id)
         {
-            var review = await _context.Reviews.FindAsync(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-
-            _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            var response = await _reviewsService.DeleteReview(id);
+            return StatusCode(response.StatusCode, response);
         }
 
-        private bool ReviewExists(int id)
-        {
-            return _context.Reviews.Any(e => e.Id == id);
-        }
     }
+
 }
