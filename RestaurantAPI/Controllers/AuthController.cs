@@ -60,7 +60,7 @@ namespace RestaurantAPI.Controllers
 
 
 
-                response.ResponseMessage = "An error occurred during registration.";
+                response.ResponseMessage = "An error occurred during Registration.";
                 response.StatusCode = 500;
                 response.Data = null;
                 response.ErrorMessage = ex.Message;
