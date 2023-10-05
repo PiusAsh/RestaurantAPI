@@ -5,7 +5,6 @@ using RestaurantAPI.Helpers;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
 using BCrypt.Net;
-using UserRole = RestaurantAPI.Entity.UserRole;
 using NuGet.Common;
 
 namespace RestaurantAPI.Services
