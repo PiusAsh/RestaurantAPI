@@ -25,9 +25,28 @@ namespace RestaurantAPI.Services
         {
             var response = new APIResponse();
 
+            var product = new Product
+            {
+                Name = productDTO.Name,
+                Description = productDTO.Description,
+                Category = productDTO.Category,
+                CreatedByName = productDTO.CreatedByName,
+                DateCreated = productDTO.DateCreated,
+                CreatedByUserId = productDTO.CreatedByUserId,
+                Price = productDTO.Price,
+                Status = "Active",
+                Thumbnail = productDTO.Thumbnail,
+                Image1 = productDTO.Image1,
+                Image2 = productDTO.Image2,
+                Image3 = productDTO.Image3,
+                Rating = productDTO.Rating,
+                IsAvailable = productDTO.IsAvailable,
+
+            };
+
             try
             {
-                var product = _mapper.Map<Product>(productDTO);
+                
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
@@ -89,6 +108,8 @@ namespace RestaurantAPI.Services
             existingProduct.Image3 = productDTO.Image3;
             existingProduct.Rating = productDTO.Rating;
             existingProduct.IsAvailable = productDTO.IsAvailable;
+            existingProduct.LastModifiedBy = productDTO.LastModifiedBy;
+            existingProduct.LastModifiedDate = DateTime.Now;
 
             try
             {

@@ -50,7 +50,13 @@ var emailSettings = new EmailSettings();
 config.GetSection("EmailSettings").Bind(emailSettings);
 
 builder.Services.Configure<EmailSettings>(config.GetSection("EmailSettings"));
-
+builder.Services.AddCors(option =>
+{
+    option.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
 
 
 
@@ -59,6 +65,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseCors();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

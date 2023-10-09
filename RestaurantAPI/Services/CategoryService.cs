@@ -35,6 +35,8 @@ namespace RestaurantAPI.Services
                 Name = category.Name,
                 Description = category.Description,
                 DateCreated = DateTime.Now,
+                CreatedByName = category.CreatedByName,
+                CreatedByUserId = category.CreatedByUserId,
                 Status = "Active"
             };
 
