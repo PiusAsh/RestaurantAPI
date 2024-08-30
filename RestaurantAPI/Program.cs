@@ -21,9 +21,17 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Restaurant API",
         Version = "v2",
-        Description = "This API offers convenient access to restaurant features. Users can effortlessly navigate menus, place orders, make reservations, and interact with restaurant services.  <br/>Enjoy a streamlined dining experience right at your fingertips.  <br/><br/> **Developed By: [Pius Ashogbon](https://www.linkedin.com/in/piusash/)**",
-        
+        Description = "This API offers convenient access to restaurant features. Users can effortlessly navigate menus, place orders, make reservations, and interact with restaurant services.  <br/>Enjoy a streamlined dining experience right at your fingertips.  <br/><br/> **Developed By: [Pius Ashogbon](https://www.linkedin.com/in/piusash/)**  <br/><br/> **Contributor: [Peter Jr. Ogar ](https://www.linkedin.com/in/ogar-peter-junior/)**",
+          
+
+
     });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+
+    c.CustomSchemaIds(type => type.FullName);
 
     // Set the comments path for the Swagger JSON and UI.
     //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -63,12 +71,14 @@ builder.Services.AddCors(option =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+
+//}
+
+app.UseCors();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 

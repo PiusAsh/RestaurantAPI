@@ -15,6 +15,9 @@ namespace RestaurantAPI.Controllers
             _notificationService = notificationService;
         }
 
+        /// <summary>
+        /// Notification - Create a new notification
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateNotification([FromBody] NotificationDTO notificationDTO)
         {
@@ -22,6 +25,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Edit or update a notification
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateNotification(int id, [FromBody] NotificationDTO notificationDTO)
         {
@@ -29,6 +35,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Delete a notification
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(int id)
         {
@@ -36,13 +45,19 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Get all available notifications
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllNotifications()
+        public async Task<IActionResult> GetAllNotifications(int pageNumber, int pageSize)
         {
-            var response = await _notificationService.GetAllNotifications();
+            var response = await _notificationService.GetAllNotifications(pageNumber, pageSize);
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Get a notification by its Id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetNotificationById(int id)
         {
@@ -50,6 +65,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Get a notification by customer Id
+        /// </summary>
         [HttpGet("customer/{customerId}")]
         public async Task<IActionResult> GetNotificationsByCustomerId(int customerId)
         {
@@ -57,6 +75,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Notification - Get an unread notification for a specific customer
+        /// </summary>
         [HttpGet("unread/customer/{customerId}")]
         public async Task<IActionResult> GetUnreadNotificationsByCustomerId(int customerId)
         {

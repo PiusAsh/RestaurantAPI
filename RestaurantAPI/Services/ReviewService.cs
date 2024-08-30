@@ -162,30 +162,47 @@ namespace RestaurantAPI.Services
             return response;
         }
 
-        public async Task<APIResponse> GetReviewsByFoodId(int foodId)
+        public async Task<APIResponse> GetReviewsByFoodId(int foodId, int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
             try
             {
+
                 var reviews = await _context.Reviews
                     .Where(r => r.FoodId == foodId)
                     .ToListAsync();
 
-                var reviewDTOs = reviews.Select(review => new ReviewsDTO
+                var reviewDTOs = reviews.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(x => new ReviewsDTO
                 {
-                    Id = review.Id,
-                    FoodId = review.FoodId,
-                    CommentedById = review.CommentedById,
-                    CommentedByName = review.CommentedByName,
-                    Rating = review.Rating,
-                    Comment = review.Comment,
-                    PostedDate = review.PostedDate
+                    Id = x.Id,
+                    FoodId = x.FoodId,
+                    CommentedById = x.CommentedById,
+                    CommentedByName = x.CommentedByName,
+                    Rating = x.Rating,
+                    Comment = x.Comment,
+                    PostedDate = x.PostedDate
                 }).ToList();
 
                 response.ResponseMessage = "Reviews Retrieved Successfully";
                 response.StatusCode = 200;
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = reviews.Count();
                 response.Data = reviewDTOs;
+
+                //var reviewDTOs = reviews.Select(review => new ReviewsDTO
+                //{
+                //    Id = review.Id,
+                //    FoodId = review.FoodId,
+                //    CommentedById = review.CommentedById,
+                //    CommentedByName = review.CommentedByName,
+                //    Rating = review.Rating,
+                //    Comment = review.Comment,
+                //    PostedDate = review.PostedDate
+                //}).ToList();
+
+
             }
             catch (Exception ex)
             {
@@ -197,17 +214,18 @@ namespace RestaurantAPI.Services
             return response;
         }
 
-        public async Task<APIResponse> GetReviewsByCommentedById(int commentedById)
+        public async Task<APIResponse> GetReviewsByCommentedById(int commentedById, int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
             try
             {
+
                 var reviews = await _context.Reviews
                     .Where(r => r.CommentedById == commentedById)
                     .ToListAsync();
 
-                var reviewDTOs = reviews.Select(review => new ReviewsDTO
+                var reviewDTOs = reviews.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(review => new ReviewsDTO
                 {
                     Id = review.Id,
                     FoodId = review.FoodId,
@@ -220,6 +238,9 @@ namespace RestaurantAPI.Services
 
                 response.ResponseMessage = "Reviews Retrieved Successfully";
                 response.StatusCode = 200;
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = reviewDTOs.Count();
                 response.Data = reviewDTOs;
             }
             catch (Exception ex)
@@ -235,7 +256,7 @@ namespace RestaurantAPI.Services
 
 
 
-        public async Task<APIResponse> GetAllReviews()
+        public async Task<APIResponse> GetAllReviews(int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
@@ -243,7 +264,7 @@ namespace RestaurantAPI.Services
             {
                 var reviews = await _context.Reviews.ToListAsync();
 
-                var reviewDTOs = reviews.Select(review => new ReviewsDTO
+                var reviewDTOs = reviews.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(review => new ReviewsDTO
                 {
                     Id = review.Id,
                     FoodId = review.FoodId,
@@ -256,6 +277,9 @@ namespace RestaurantAPI.Services
 
                 response.ResponseMessage = "Reviews retrieved successfully";
                 response.StatusCode = 200;
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = reviewDTOs.Count();
                 response.Data = reviewDTOs;
             }
             catch (Exception ex)

@@ -93,17 +93,21 @@ namespace RestaurantAPI.Services
             return response;
         }
 
-        public async Task<APIResponse> GetAllOrders()
+        public async Task<APIResponse> GetAllOrders(int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
             try
             {
-                var orders = await _context.Orders.ToListAsync();
+                var totalRecords = await _context.Orders.CountAsync();
+                var categories = await _context.Orders.OrderByDescending(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
                 response.ResponseMessage = "Orders retrieved successfully";
                 response.StatusCode = 200;
-                response.Data = orders; // Assuming orders is a list of Order
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = totalRecords;
+                response.Data = categories; // Assuming orders is a list of Order
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure;
 using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entity;
 using RestaurantAPI.Helpers;
@@ -231,15 +232,20 @@ namespace RestaurantAPI.Services
         }
 
 
-        public async Task<APIResponse> GetAllProductsAsync()
+        public async Task<APIResponse> GetAllProductsAsync(int pageNumber, int pageSize)
         {
-            var products = await _context.Products.ToListAsync();
-            var response = new APIResponse
-            {
-                StatusCode = 200,
-                ResponseMessage = "Success",
-                Data = products
-            };
+            var response = new APIResponse();
+
+            var totalRecords = await _context.Products.CountAsync();
+            var categories = await _context.Products.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            response.pageNumber = pageNumber;
+            response.PageSize = pageSize;
+            response.TotalRecords = totalRecords;
+            response.ResponseMessage = "Success";
+            response.StatusCode = 200;
+            response.Data = categories;
+
             return response;
         }
 

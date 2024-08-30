@@ -9,6 +9,6 @@ namespace RestaurantAPI.Interfaces
         Task<APIResponse> UpdateCategory(int id, CategoryDTO category);
         Task<APIResponse> DeleteCategory(int id);
         Task<APIResponse> GetCategoryById(int id);
-        Task<APIResponse> GetCategories();
+        Task<APIResponse> GetCategories(int pageNumber, int pageSize);
     }
 }

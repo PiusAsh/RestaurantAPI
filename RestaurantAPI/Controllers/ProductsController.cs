@@ -22,13 +22,19 @@ namespace RestaurantAPI.Controllers
             _productService = productService;
         }
 
+        /// <summary>
+        /// Products - Get all available products
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts(int pageNumber, int pageSize)
         {
-            var response = await _productService.GetAllProductsAsync();
+            var response = await _productService.GetAllProductsAsync(pageNumber, pageSize);
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Products - Add a new product
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] ProductDTO productDTO)
         {
@@ -36,6 +42,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Products - Update an existing product
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDTO productDTO)
         {
@@ -43,6 +52,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Products - Delete a product by Id
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -50,6 +62,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Products - Get a product by Id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {

@@ -108,16 +108,22 @@ namespace RestaurantAPI.Services
             return response;
         }
 
-        public async Task<APIResponse> GetAllNotifications()
+        public async Task<APIResponse> GetAllNotifications(int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
             try
             {
-                var notifications = await _context.Notifications.OrderByDescending(p => p.Id).ToListAsync();
+                var totalRecords = await _context.Notifications.CountAsync();
+                var categories = await _context.Notifications.OrderByDescending(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+          
                 response.ResponseMessage = "Notifications Retrieved Successfully";
                 response.StatusCode = 200;
-                response.Data = notifications;
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = totalRecords;
+                response.Data = categories;
             }
             catch (Exception ex)
             {

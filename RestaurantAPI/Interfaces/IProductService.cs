@@ -9,7 +9,7 @@ namespace RestaurantAPI.Interfaces
         Task<APIResponse> UpdateProductAsync(int id, ProductDTO productDTO);
         Task<APIResponse> DeleteProductAsync(int id);
         Task<APIResponse> GetProductAsync(int id);
-        Task<APIResponse> GetAllProductsAsync();
+        Task<APIResponse> GetAllProductsAsync(int pageNumber, int pageSize);
     }
 
 

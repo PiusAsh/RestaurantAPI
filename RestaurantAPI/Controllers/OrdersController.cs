@@ -22,7 +22,9 @@ namespace RestaurantAPI.Controllers
             _orderService = orderService;
         }
 
-        // POST: api/orders
+        /// <summary>
+        /// Order - Create a new order
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDTO orderDTO)
         {
@@ -30,7 +32,10 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // PUT: api/orders/5
+
+        /// <summary>
+        /// Order - Update an order
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderDTO orderDTO)
         {
@@ -38,7 +43,10 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // DELETE: api/orders/5
+
+        /// <summary>
+        /// Order - Delete a specific order by its Id
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
@@ -46,15 +54,21 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders
+
+        /// <summary>
+        /// Order - Get all available orders
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders()
+        public async Task<IActionResult> GetAllOrders(int pageNumber, int pageSize)
         {
-            var response = await _orderService.GetAllOrders();
+            var response = await _orderService.GetAllOrders(pageNumber, pageSize);
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders/5
+
+        /// <summary>
+        /// Order - Get an order by Id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -62,7 +76,10 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders/customer/5
+
+        /// <summary>
+        /// Order - Get an order by customer Id
+        /// </summary>
         [HttpGet("customer/{id}")]
         public async Task<IActionResult> GetOrderByCustomerId(int id)
         {
@@ -70,7 +87,10 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders/deliveryperson/5
+
+        /// <summary>
+        /// Order - Get an order by a certain delivery person Id
+        /// </summary>
         [HttpGet("deliveryperson/{id}")]
         public async Task<IActionResult> GetOrderByDeliveryPersonId(int id)
         {
@@ -78,7 +98,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders/ref/ABC123
+        /// <summary>
+        /// Order - Get an order by a reference Id
+        /// </summary>
         [HttpGet("ref/{id}")]
         public async Task<IActionResult> GetOrderByRef(string id)
         {
@@ -86,7 +108,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-        // GET: api/orders/transaction/XYZ456
+        /// <summary>
+        /// Order - Get an order by a transaction Id
+        /// </summary>
         [HttpGet("transaction/{id}")]
         public async Task<IActionResult> GetOrderByTransactionId(string id)
         {

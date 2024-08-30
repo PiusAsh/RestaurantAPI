@@ -8,7 +8,7 @@ namespace RestaurantAPI.Interfaces
         Task<APIResponse> CreateOrder(OrderDTO orderDTO);
         Task<APIResponse> UpdateOrder(int id, OrderDTO orderDTO);
         Task<APIResponse> DeleteOrder(int id);
-        Task<APIResponse> GetAllOrders();
+        Task<APIResponse> GetAllOrders(int pageNumber, int pageSize);
         Task<APIResponse> GetOrderById(int id);
         Task<APIResponse> GetOrderByCustomerId(int customerId);
         Task<APIResponse> GetOrderByDeliveryPersonId(int deliveryPersonId);

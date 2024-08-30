@@ -9,9 +9,9 @@ namespace RestaurantAPI.Interfaces
         Task<APIResponse> UpdateReview(int id, ReviewsDTO reviewDTO);
         Task<APIResponse> DeleteReview(int id);
         Task<APIResponse> GetReviewById(int id);
-        Task<APIResponse> GetReviewsByFoodId(int foodId);
-        Task<APIResponse> GetReviewsByCommentedById(int commentedById);
-        Task<APIResponse> GetAllReviews();
+        Task<APIResponse> GetReviewsByFoodId(int foodId, int pageNumber, int pageSize);
+        Task<APIResponse> GetReviewsByCommentedById(int commentedById, int pageNumber, int pageSize);
+        Task<APIResponse> GetAllReviews(int pageNumber, int pageSize);
     }
 
 }

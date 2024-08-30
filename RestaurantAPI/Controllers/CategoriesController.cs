@@ -24,14 +24,19 @@ namespace RestaurantAPI.Controllers
             _categoryService = categoryService;
         }
 
+        /// <summary>
+        /// Categories - Get all the available categories
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllCategories()
+        public async Task<IActionResult> GetAllCategories(int pageNumber, int pageSize)
         {
-            var response = await _categoryService.GetCategories();
+            var response = await _categoryService.GetCategories(pageNumber, pageSize);
             return StatusCode(response.StatusCode, response);
         }
 
-        
+        /// <summary>
+        /// Categories - Get a particular catogory by its Id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
         {
@@ -39,7 +44,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
+        /// <summary>
+        /// Categories - Edit a particular catogory
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryDTO category)
         {
@@ -47,7 +54,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
-
+        /// <summary>
+        /// Categories - Add a new category
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] CategoryDTO category)
         {
@@ -57,7 +66,9 @@ namespace RestaurantAPI.Controllers
 
         }
 
-       
+        /// <summary>
+        /// Categories - Delete a category
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

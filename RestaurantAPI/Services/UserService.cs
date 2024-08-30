@@ -4,6 +4,7 @@ using RestaurantAPI.Entity;
 using RestaurantAPI.Helpers;
 using RestaurantAPI.Interfaces;
 using RestaurantAPI.Models;
+using System.Drawing.Printing;
 
 namespace RestaurantAPI.Services
 {
@@ -102,15 +103,19 @@ namespace RestaurantAPI.Services
             return response;
         }
 
-        public async Task<APIResponse> GetAllUsersAsync()
+        public async Task<APIResponse> GetAllUsersAsync(int pageNumber, int pageSize)
         {
             var response = new APIResponse();
 
             try
             {
-                var users = await _context.Users.OrderByDescending(p => p.Id).ToListAsync();
+                var totalRecords = await _context.Users.CountAsync();
+                var users = await _context.Users.OrderByDescending(p => p.Id).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
                 response.ResponseMessage = "Users Retrieved Successfully";
                 response.StatusCode = 200;
+                response.pageNumber = pageNumber;
+                response.PageSize = pageSize;
+                response.TotalRecords = totalRecords;
                 response.Data = users;
             }
             catch (Exception ex)

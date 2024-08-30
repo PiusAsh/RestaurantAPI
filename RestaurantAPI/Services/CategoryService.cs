@@ -92,15 +92,20 @@ namespace RestaurantAPI.Services
             }
         }
 
-        public async Task<APIResponse> GetCategories()
+        public async Task<APIResponse> GetCategories(int pageNumber, int pageSize)
         {
-            var category = await _context.Categories.ToListAsync();
-            var response = new APIResponse
-            {
-                StatusCode = 200,
-                ResponseMessage = "Success",
-                Data = category
-            };
+            var response = new APIResponse();
+
+            var totalRecords = await _context.Categories.CountAsync();
+            var categories = await _context.Categories.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            response.pageNumber = pageNumber;
+            response.PageSize = pageSize;
+            response.TotalRecords = totalRecords;
+            response.ResponseMessage = "Success";
+            response.StatusCode = 200;
+            response.Data = categories;
+
             return response;
         }
 

@@ -26,14 +26,19 @@ namespace RestaurantAPI.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Users - Get all users
+        /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers(int pageNumber, int pageSize)
         {
-            var response = await _userService.GetAllUsersAsync();
+            var response = await _userService.GetAllUsersAsync(pageNumber, pageSize);
             return StatusCode(response.StatusCode, response);
         }
 
-
+        /// <summary>
+        /// Users - Get a user by Id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -41,6 +46,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Users - Get a user by their email
+        /// </summary>
         [HttpGet("user/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
@@ -48,6 +56,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Users - Update or edit a user by it Id
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserDTO userDTO)
         {
@@ -55,6 +66,9 @@ namespace RestaurantAPI.Controllers
             return StatusCode(response.StatusCode, response);
         }
 
+        /// <summary>
+        /// Users - Delete a user by it Id
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

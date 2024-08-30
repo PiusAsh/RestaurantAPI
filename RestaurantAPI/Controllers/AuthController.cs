@@ -29,7 +29,9 @@ namespace RestaurantAPI.Controllers
             _emailService = emailService;
         }
 
-
+        /// <summary>
+        /// Login - User login with email and password
+        /// </summary>
 
         [HttpPost("login")]
         public async Task<ActionResult<User>> login([FromBody] LoginRequestDto loginRequest)
@@ -41,7 +43,9 @@ namespace RestaurantAPI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Register - Register a new user
+        /// </summary>
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
         {
